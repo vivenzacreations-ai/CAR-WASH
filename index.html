@@ -1,1 +1,825 @@
-kokoko
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Woosh Car Care - Premium Car Wash in Srinagar</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    brand: {
+                        cyan: '#00d0ff',    // Bright accents/buttons
+                        purple: '#5512d9',  // Secondary accents
+                        deep: '#041e8c',    // Deep shadow/border blues
+                        blue: '#0b4cf2',    // Primary brand blue
+                        midnight: '#010626',// Deepest background
+                        dark: '#031040',    // Section background
+                        card: '#081d66'     // Card background
+                    }
+                }
+            }
+        }
+    }
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    @font-face { font-family: "SF Pro Display"; font-style: normal; font-weight: 400; src: url("https://raw.githubusercontent.com/blaisck/sfwin/master/SFPro/TrueType/SFProDisplay-Regular.ttf"); }
+    @font-face { font-family: "SF Pro Display"; font-style: normal; font-weight: 600; src: url("https://raw.githubusercontent.com/blaisck/sfwin/master/SFPro/TrueType/SFProDisplay-SemiBold.ttf"); }
+    @font-face { font-family: "SF Pro Display"; font-style: normal; font-weight: 700; src: url("https://raw.githubusercontent.com/blaisck/sfwin/master/SFPro/TrueType/SFProDisplay-Bold.ttf"); }
+    
+    body {
+        font-family: 'SF Pro Display', sans-serif;
+        background-color: #010626; /* brand-midnight */
+    }
+    
+    /* === PRELOADER ANIMATIONS === */
+    @keyframes load-fill {
+        0% { width: 0%; }
+        100% { width: 100%; }
+    }
+    @keyframes pulse-ring {
+        0% { transform: scale(0.8); opacity: 0.8; }
+        100% { transform: scale(2); opacity: 0; }
+    }
+    .animate-load-fill {
+        animation: load-fill 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    .animate-pulse-ring {
+        animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+    .loader-exit {
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(1.05);
+        transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-bg {
+        background-color: #010626;
+        background-image:
+        radial-gradient(circle at 50% 20%, rgba(4, 30, 140, 0.4) 0%, transparent 60%),
+        radial-gradient(circle at 50% 50%, #031040 0%, #010626 100%);
+    }
+    .glow-button {
+        box-shadow: 0 0 15px 2px rgba(0, 208, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+    .glow-button:hover {
+        box-shadow: 0 0 25px 8px rgba(0, 208, 255, 0.6);
+        transform: translateY(-2px);
+    }
+    .glow-element {
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glow-element:hover {
+        box-shadow: 0 10px 30px 5px rgba(11, 76, 242, 0.3);
+        border-color: rgba(0, 208, 255, 0.5);
+        transform: translateY(-5px);
+    }
+    
+    /* === HEADER LIQUID GLASS (Restored Original) === */
+    .liquid-glass-header {
+        background: rgba(255, 255, 255, 0.10);
+        -webkit-backdrop-filter: blur(30px) saturate(145%) url(#fisheye-lens-filter);
+        backdrop-filter: blur(0px) saturate(145%) url(#fisheye-lens-filter);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: inset 0px 4px 30px rgba(0, 0, 0, 0.1), 0px 2px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    /* === MENU BUTTON LIQUID GLASS === */
+    .liquid-glass-menu {
+        background: rgba(255, 255, 255, 0.05);
+        -webkit-backdrop-filter: blur(15px) saturate(160%) url(#fisheye-lens-filter);
+        backdrop-filter: blur(0px) saturate(160%) url(#fisheye-lens-filter);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: inset 0px 2px 10px rgba(255, 255, 255, 0.1), 0px 6px 15px rgba(0, 0, 0, 0.5);
+        border-radius: 9999px;
+        padding: 0.75rem;
+        width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+        color: white; cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .liquid-glass-menu:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(0, 208, 255, 0.5);
+        box-shadow: inset 0px 2px 10px rgba(255, 255, 255, 0.3), 0px 6px 20px rgba(0, 208, 255, 0.3);
+    }
+    
+    /* Menu Open Animation */
+    .menu-active-anim {
+        transform: scale(0.9) rotate(90deg);
+        box-shadow: inset 0px 0px 15px rgba(0, 208, 255, 0.8), 0px 0px 20px rgba(0, 208, 255, 0.5);
+        border-color: #00d0ff;
+        background: rgba(0, 208, 255, 0.1);
+    }
+
+    /* === CREATIVE SOAP BUBBLE BUTTONS === */
+    @keyframes soap-bubble {
+        0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+        66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+    }
+    @keyframes soap-pill {
+        0%, 100% { border-radius: 25px 35px 25px 35px / 35px 25px 35px 25px; }
+        50% { border-radius: 35px 25px 35px 25px / 25px 35px 25px 35px; }
+    }
+
+    .shape-bubble {
+        animation: soap-bubble 6s infinite ease-in-out;
+    }
+    .shape-pill {
+        animation: soap-pill 5s infinite ease-in-out;
+    }
+
+    .glassy-btn-purple {
+        background: linear-gradient(180deg, rgba(139, 92, 255, 0.8) 0%, rgba(94, 33, 255, 0.8) 100%);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow:
+            inset -4px -4px 10px rgba(0, 0, 0, 0.3),     /* Inner bottom shadow for 3D liquid look */
+            inset 4px 4px 12px rgba(255, 255, 255, 0.6), /* Inner top highlight for glossy liquid */
+            0px 8px 20px rgba(94, 33, 255, 0.4);         /* Outer glow */
+        text-shadow: 0px 1px 2px rgba(0,0,0,0.2);
+    }
+    .glassy-btn-purple:hover {
+        background: linear-gradient(180deg, rgba(150, 105, 255, 0.9) 0%, rgba(105, 45, 255, 0.9) 100%);
+        box-shadow:
+            inset -4px -4px 10px rgba(0, 0, 0, 0.3),
+            inset 4px 4px 15px rgba(255, 255, 255, 0.8),
+            0px 12px 28px rgba(94, 33, 255, 0.6);
+    }
+
+    /* === ANIMATED MENU DIVIDERS === */
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+    .menu-divider {
+        height: 1px; width: 100%;
+        background: linear-gradient(90deg, transparent, #0b4cf2, transparent);
+        background-size: 200% 100%;
+        animation: shimmer 3s infinite linear;
+        opacity: 0.8;
+    }
+    /* Portfolio Overlay */
+    .portfolio-overlay {
+        background: linear-gradient(to top, rgba(1, 6, 38, 0.98), rgba(1, 6, 38, 0.5), transparent);
+    }
+</style>
+</head>
+<body class="bg-brand-midnight text-gray-200 selection:bg-brand-cyan selection:text-white overflow-x-hidden relative" style="overflow: hidden;">
+
+<!-- PREMIUM LOADER -->
+<div id="premium-loader" class="fixed inset-0 z-[99999] bg-brand-midnight flex flex-col items-center justify-center transition-all duration-700">
+    <div class="relative flex flex-col items-center justify-center">
+        <!-- Glowing animated rings -->
+        <div class="absolute top-8 left-1/2 -translate-x-1/2 w-24 h-24 bg-brand-cyan/40 rounded-full blur-md animate-pulse-ring"></div>
+        <div class="absolute top-8 left-1/2 -translate-x-1/2 w-24 h-24 bg-brand-purple/40 rounded-full blur-md animate-pulse-ring" style="animation-delay: 0.75s;"></div>
+        
+        <!-- Center Icon Box -->
+        <div class="relative w-20 h-20 mb-8 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-[0_0_30px_rgba(0,208,255,0.2)]">
+            <i class="fas fa-car text-4xl text-transparent bg-clip-text bg-gradient-to-br from-brand-cyan to-brand-purple"></i>
+        </div>
+
+        <!-- Brand Text -->
+        <h2 class="text-xl md:text-2xl font-bold text-white tracking-[0.2em] uppercase mb-1">Woosh Car Care</h2>
+        <p class="text-brand-cyan text-xs md:text-sm tracking-widest uppercase mb-8 opacity-80">Loading Experience</p>
+
+        <!-- Progress Line -->
+        <div class="w-48 md:w-64 h-[2px] bg-brand-deep/50 rounded-full overflow-hidden relative">
+            <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-brand-cyan via-white to-brand-cyan animate-load-fill shadow-[0_0_10px_#00d0ff]"></div>
+        </div>
+    </div>
+</div>
+
+<!-- This is the Filter for the "Passive" Turbulence Effect -->
+<svg style="position:absolute; width:0; height:0; pointer-events: none;">
+    <filter id="fisheye-lens-filter">
+        <feTurbulence id="turbulence" type="fractalNoise" baseFrequency="0.01 0.04" numOctaves="1" seed="2" result="noise"/>
+        <feImage xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0id2hpdGUiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSJibGFjayIgLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0idXJsKCNnKSIgLz48L3N2Zz4=" x="0" y="0" width="100%" height="100%" result="radial-map"/>
+        <feBlend in="noise" in2="radial-map" mode="multiply" result="final-map"/>
+        <feDisplacementMap in="SourceGraphic" in2="final-map" scale="100" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+</svg>
+
+<!-- ============================================== -->
+<!-- FIXED FLOATING ACTIONS & TAG (CREATIVE SOAP BUBBLES) -->
+<!-- ============================================== -->
+
+<!-- Left Phone Bubble Icon -->
+<a href="tel:09596424242" class="fixed bottom-6 left-4 md:left-8 z-[100] glassy-btn-purple shape-bubble w-14 h-14 md:w-16 md:h-16 flex items-center justify-center text-white text-xl md:text-2xl hover:-translate-y-2 transition-transform duration-300">
+    <i class="fas fa-phone-alt drop-shadow-md"></i>
+</a>
+
+<!-- Right Book Appointment Soap Pill -->
+<a href="https://wa.me/919596424242" target="_blank" class="fixed bottom-6 right-4 md:right-8 z-[100] glassy-btn-purple shape-pill pl-2 pr-5 py-2 md:py-2.5 md:pl-3 md:pr-6 flex items-center gap-3 text-white hover:-translate-y-2 transition-transform duration-300 shadow-[0_4px_20px_rgba(94,33,255,0.4)]">
+    <div class="bg-white/20 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center backdrop-blur-md border border-white/30 shadow-inner">
+        <i class="fab fa-whatsapp text-xl md:text-2xl drop-shadow-md"></i>
+    </div>
+    <span class="font-bold text-sm md:text-base tracking-wide drop-shadow-sm">Book Appointment</span>
+</a>
+
+
+<!-- MOBILE MENU OVERLAY & MENU -->
+<div id="mobile-menu-overlay" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[60] hidden transition-opacity duration-300"></div>
+<div id="mobile-menu" class="hidden md:hidden fixed inset-x-4 top-24 max-w-lg mx-auto bg-brand-dark/95 backdrop-blur-xl rounded-[2rem] z-[70] border border-white/10 overflow-hidden shadow-2xl shadow-brand-deep/50 transition-all duration-300">
+    <!-- Menu Header -->
+    <div class="flex justify-between items-center p-6 bg-white/5">
+        <span class="text-xl font-bold text-white tracking-wider ml-2">Menu</span>
+        <button id="mobile-menu-close-button" class="focus:outline-none bg-white/5 backdrop-blur-md border border-white/20 rounded-full w-10 h-10 flex items-center justify-center text-white hover:bg-red-500/20 hover:border-red-500/50 transition-all">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <!-- Animated Top Divider -->
+    <div class="menu-divider"></div>
+    <!-- Menu Links with animated dividers -->
+    <div class="flex flex-col p-2">
+        <a href="#home" class="block text-center py-4 text-lg font-medium hover:bg-white/5 hover:text-brand-cyan transition rounded-xl">Home</a>
+        <div class="menu-divider opacity-30"></div>
+        <a href="#about" class="block text-center py-4 text-lg font-medium hover:bg-white/5 hover:text-brand-cyan transition rounded-xl">About Us</a>
+        <div class="menu-divider opacity-30"></div>
+        <a href="#services" class="block text-center py-4 text-lg font-medium hover:bg-white/5 hover:text-brand-cyan transition rounded-xl">Services</a>
+        <div class="menu-divider opacity-30"></div>
+        <a href="#products" class="block text-center py-4 text-lg font-medium hover:bg-white/5 hover:text-brand-cyan transition rounded-xl">Shop</a>
+        <div class="menu-divider opacity-30"></div>
+        <a href="#testimonials" class="block text-center py-4 text-lg font-medium hover:bg-white/5 hover:text-brand-cyan transition rounded-xl">Reviews</a>
+        <div class="menu-divider opacity-30"></div>
+        <a href="#contact" class="block text-center py-4 text-lg font-bold text-brand-cyan hover:bg-white/5 transition rounded-xl mt-2 mb-2">Contact Us</a>
+    </div>
+</div>
+
+<!-- HEADER SECTION & BRAND TAG -->
+<div class="sticky top-0 z-50 flex flex-col items-center w-full">
+    <!-- Brand Tag Bar -->
+    <div class="w-full bg-gradient-to-r from-brand-deep via-brand-purple to-brand-blue text-white text-xs md:text-sm font-semibold py-2 text-center tracking-wide shadow-[0_4px_20px_rgba(0,0,0,0.8)] z-20 relative border-b border-white/10">
+        ✨ Woosh Car Care – Precision, Polish, Perfection.
+    </div>
+
+    <!-- Main Header -->
+    <div class="w-full p-2 md:p-4 pointer-events-none"> <!-- Make wrapper pass-through -->
+        <header id="header" class="container mx-auto relative rounded-full liquid-glass-header pointer-events-auto"> <!-- Re-enable pointer events on header -->
+            <div class="relative z-10 w-full flex justify-between items-center px-6 py-3 md:px-10 md:py-4">
+                <a href="#home" class="flex items-center text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wider group">
+                    <i class="fas fa-car h-8 w-8 md:h-9 md:w-9 text-brand-cyan mr-3 group-hover:scale-110 transition-transform flex items-center justify-center"></i>
+                    <span class="whitespace-nowrap">Woosh Car Care</span>
+                </a>
+                <nav class="hidden md:flex space-x-10">
+                    <a href="#home" class="text-sm lg:text-base font-semibold uppercase tracking-wider text-gray-300 hover:text-brand-cyan transition duration-300">Home</a>
+                    <a href="#about" class="text-sm lg:text-base font-semibold uppercase tracking-wider text-gray-300 hover:text-brand-cyan transition duration-300">About</a>
+                    <a href="#services" class="text-sm lg:text-base font-semibold uppercase tracking-wider text-gray-300 hover:text-brand-cyan transition duration-300">Services</a>
+                    <a href="#products" class="text-sm lg:text-base font-semibold uppercase tracking-wider text-gray-300 hover:text-brand-cyan transition duration-300">Shop</a>
+                    <a href="#testimonials" class="text-sm lg:text-base font-semibold uppercase tracking-wider text-gray-300 hover:text-brand-cyan transition duration-300">Reviews</a>
+                    <a href="#contact" class="text-sm lg:text-base font-semibold uppercase tracking-wider text-brand-cyan hover:text-white transition duration-300">Contact</a>
+                </nav>
+                <!-- New Layered Liquid Glass Mobile Button -->
+                <button id="mobile-menu-button" class="md:hidden focus:outline-none z-50 liquid-glass-menu relative overflow-hidden">
+                    <i id="menu-open-icon" class="fas fa-bars fa-lg relative z-10 pointer-events-none"></i>
+                </button>
+            </div>
+        </header>
+    </div>
+</div>
+
+<main>
+    <!-- HERO SECTION -->
+    <section id="home" class="hero-bg min-h-screen flex items-center relative overflow-hidden -mt-24 pt-24">
+        <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1920&auto-format&fit=crop"
+             alt="Soapy Car Wash Action"
+             class="absolute inset-0 w-full h-full object-cover opacity-[0.25] mix-blend-overlay">
+        <div class="absolute inset-0 bg-gradient-to-b from-brand-deep/30 via-brand-midnight/80 to-brand-midnight"></div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10 pt-10">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6 drop-shadow-2xl">
+                Experience The <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-purple filter drop-shadow-[0_0_15px_rgba(0,208,255,0.4)]">Ultimate Clean.</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed font-medium">
+                Premium car wash and detailing services located in Rajbagh, Srinagar. We deliver unmatched attention to detail to make your vehicle feel brand new.
+            </p>
+            <a href="https://wa.me/919596424242" target="_blank" class="bg-brand-cyan text-brand-midnight font-bold px-8 py-3.5 md:px-10 md:py-4 rounded-full hover:bg-white transition duration-300 text-lg glow-button inline-flex items-center tracking-wide">
+                <i class="fab fa-whatsapp mr-2 text-xl"></i> Book Your Wash
+            </a>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-24 bg-brand-dark relative border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white tracking-wide">About Woosh Car Care</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-brand-cyan to-brand-blue mx-auto mt-4 rounded shadow-[0_0_15px_rgba(11,76,242,0.8)]"></div>
+            </div>
+            <div class="flex flex-col md:flex-row items-center gap-16 lg:gap-24 max-w-6xl mx-auto">
+                <div class="md:w-1/2 relative group">
+                    <div class="absolute -inset-2 bg-gradient-to-r from-brand-cyan via-brand-purple to-brand-blue rounded-[3rem] blur opacity-30 group-hover:opacity-60 transition duration-700"></div>
+                    <!-- New Professional Detailing Action Image -->
+                    <img src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2FyJTIwd2FzaHxlbnwwfHwwfHx8MA%3D%3D" alt="Professional Car Detailing" class="relative rounded-[2.5rem] shadow-2xl w-full border border-white/10">
+                </div>
+                <div class="md:w-1/2 text-center md:text-left">
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-6">Driven by Perfection.</h3>
+                    <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-6 font-medium">
+                        Situated at the <strong>Post Office in Ikhrajpora, Rajbagh</strong>, Woosh Car Care brings a modern, highly-professional approach to vehicle maintenance in Srinagar. We don't just wash cars; we rejuvenate them.
+                    </p>
+                    <p class="text-gray-400 text-base md:text-lg leading-relaxed mb-8">
+                        Our dedicated team uses top-tier equipment and chemicals to ensure every inch of your car receives the care it deserves. From quick exterior washes to deep interior detailing, we guarantee satisfaction.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <div class="bg-brand-midnight border border-white/10 px-5 py-3 rounded-xl flex items-center gap-4 shadow-lg">
+                            <i class="fas fa-map-marker-alt text-brand-cyan text-xl"></i>
+                            <span class="text-sm font-semibold text-gray-200 uppercase tracking-wide">Rajbagh, Srinagar</span>
+                        </div>
+                        <div class="bg-brand-midnight border border-white/10 px-5 py-3 rounded-xl flex items-center gap-4 shadow-lg">
+                            <i class="fas fa-calendar-check text-brand-cyan text-xl"></i>
+                            <span class="text-sm font-semibold text-gray-200 uppercase tracking-wide">Open 9 AM Mon-Sun</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services" class="py-24 bg-brand-midnight relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mr-32 -mt-32 w-[500px] h-[500px] bg-brand-purple opacity-10 blur-[100px] rounded-full pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 -ml-32 -mb-32 w-[500px] h-[500px] bg-brand-cyan opacity-10 blur-[100px] rounded-full pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 relative z-10 max-w-7xl">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white tracking-wide">Signature Services</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-brand-cyan to-brand-blue mx-auto mt-4 rounded shadow-[0_0_15px_rgba(0,208,255,0.6)]"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1: Foam Wash -->
+                <div class="bg-brand-card/40 backdrop-blur-sm border border-white/5 p-10 rounded-[2.5rem] text-center shadow-2xl glow-element group">
+                    <div class="text-brand-blue mb-6 group-hover:text-brand-cyan transition-colors duration-300 drop-shadow-[0_0_10px_rgba(11,76,242,0.5)] group-hover:drop-shadow-[0_0_15px_rgba(0,208,255,0.8)]"><i class="fas fa-soap fa-3x"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Foam Wash</h3>
+                    <p class="text-gray-400 text-base leading-relaxed">Luxurious, thick snow foam that safely lifts dirt, protecting your vehicle's clear coat from scratches.</p>
+                </div>
+                <!-- Card 2: Chemical Wash -->
+                <div class="bg-brand-card/40 backdrop-blur-sm border border-white/5 p-10 rounded-[2.5rem] text-center shadow-2xl glow-element group">
+                    <div class="text-brand-blue mb-6 group-hover:text-brand-cyan transition-colors duration-300 drop-shadow-[0_0_10px_rgba(11,76,242,0.5)] group-hover:drop-shadow-[0_0_15px_rgba(0,208,255,0.8)]"><i class="fas fa-spray-can fa-3x"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Chemical Wash</h3>
+                    <p class="text-gray-400 text-base leading-relaxed">Targeted chemical decontamination to dissolve stubborn tar, sap, and iron deposits effortlessly.</p>
+                </div>
+                <!-- Card 3: Dry Cleaning -->
+                <div class="bg-brand-card/40 backdrop-blur-sm border border-white/5 p-10 rounded-[2.5rem] text-center shadow-2xl glow-element group">
+                    <div class="text-brand-blue mb-6 group-hover:text-brand-cyan transition-colors duration-300 drop-shadow-[0_0_10px_rgba(11,76,242,0.5)] group-hover:drop-shadow-[0_0_15px_rgba(0,208,255,0.8)]"><i class="fas fa-chair fa-3x"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Interior Detailing</h3>
+                    <p class="text-gray-400 text-base leading-relaxed">Deep interior dry cleaning, vacuuming, and upholstery sanitization for a pristine cabin feel.</p>
+                </div>
+                <!-- Card 4: Engine Bay -->
+                <div class="bg-brand-card/40 backdrop-blur-sm border border-white/5 p-10 rounded-[2.5rem] text-center shadow-2xl glow-element group">
+                    <div class="text-brand-blue mb-6 group-hover:text-brand-cyan transition-colors duration-300 drop-shadow-[0_0_10px_rgba(11,76,242,0.5)] group-hover:drop-shadow-[0_0_15px_rgba(0,208,255,0.8)]"><i class="fas fa-cogs fa-3x"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Engine Cleaning</h3>
+                    <p class="text-gray-400 text-base leading-relaxed">Careful degreasing and dressing of engine bay components to maintain optimal performance look.</p>
+                </div>
+                <!-- Card 5: Polish & Wax -->
+                <div class="bg-brand-card/40 backdrop-blur-sm border border-white/5 p-10 rounded-[2.5rem] text-center shadow-2xl glow-element group">
+                    <div class="text-brand-blue mb-6 group-hover:text-brand-cyan transition-colors duration-300 drop-shadow-[0_0_10px_rgba(11,76,242,0.5)] group-hover:drop-shadow-[0_0_15px_rgba(0,208,255,0.8)]"><i class="fas fa-gem fa-3x"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Polish & Wax</h3>
+                    <p class="text-gray-400 text-base leading-relaxed">Enhance gloss and protect your paintwork with our premium, high-grade finishing waxes.</p>
+                </div>
+                <!-- Card 6: Quick Service -->
+                <div class="bg-brand-card/40 backdrop-blur-sm border border-white/5 p-10 rounded-[2.5rem] text-center shadow-2xl glow-element group">
+                    <div class="text-brand-blue mb-6 group-hover:text-brand-cyan transition-colors duration-300 drop-shadow-[0_0_10px_rgba(11,76,242,0.5)] group-hover:drop-shadow-[0_0_15px_rgba(0,208,255,0.8)]"><i class="fas fa-bolt fa-3x"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Express Wash</h3>
+                    <p class="text-gray-400 text-base leading-relaxed">Short on time? Get a high-quality exterior clean and tire dress efficiently to keep you moving.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOP/PRODUCTS SECTION -->
+    <section id="products" class="py-24 bg-brand-dark relative border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white tracking-wide">Car Care Shop</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-brand-cyan to-brand-blue mx-auto mt-4 rounded shadow-[0_0_15px_rgba(11,76,242,0.8)]"></div>
+                <p class="text-gray-400 mt-6 max-w-2xl mx-auto text-lg">Take the Woosh quality home with you using our professional-grade maintenance accessories.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Product 1 -->
+                <div class="group relative h-80 rounded-[2.5rem] overflow-hidden cursor-pointer border border-white/10 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1655071325190-95ebe6e89431?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTl8fGNhciUyMHdhc2h8ZW58MHx8MHx8fDA%3D" loading="lazy" alt="Microfiber Cloth" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 portfolio-overlay opacity-90 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 w-full">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <span class="bg-brand-cyan/20 text-brand-cyan px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-brand-cyan/30 backdrop-blur-sm mb-3 inline-block">Top Seller</span>
+                                <h3 class="text-3xl font-bold text-white mt-1">Premium Microfiber <br><span class="text-lg font-medium text-gray-300">800 GSM Towel</span></h3>
+                            </div>
+                            <div class="text-right pb-1">
+                                <span class="text-brand-cyan font-bold text-2xl">₹250</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Placeholder for future product -->
+                <div class="group relative h-80 rounded-[2.5rem] overflow-hidden border border-white/5 bg-brand-midnight/50 flex items-center justify-center shadow-2xl backdrop-blur-sm">
+                    <div class="text-center">
+                        <i class="fas fa-box-open text-brand-blue fa-3x mb-4 opacity-50 group-hover:opacity-100 group-hover:text-brand-cyan transition-all duration-300 group-hover:-translate-y-2"></i>
+                        <h3 class="text-xl font-bold text-gray-500 group-hover:text-gray-300 transition-colors">More Accessories<br>Arriving Soon</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" class="py-24 bg-brand-midnight relative border-t border-white/5">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white tracking-wide">Client Satisfaction</h2>
+                <div class="flex items-center justify-center gap-3 mt-5 mb-2">
+                    <span class="text-white font-extrabold text-3xl">4.1</span>
+                    <div class="text-yellow-400 text-2xl flex gap-1">
+                        <i class="fas fa-star drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]"></i>
+                        <i class="fas fa-star drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]"></i>
+                        <i class="fas fa-star drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]"></i>
+                        <i class="fas fa-star drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]"></i>
+                        <i class="fas fa-star-half-alt drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]"></i>
+                    </div>
+                </div>
+                <p class="text-brand-cyan font-semibold uppercase tracking-widest text-sm">Based on 244 Reviews</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="p-8 rounded-[2rem] bg-brand-card/30 backdrop-blur-md border border-white/10 relative shadow-2xl hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-brand-cyan/20 text-6xl absolute top-4 right-6"><i class="fas fa-quote-right"></i></div>
+                    <p class="text-gray-300 italic mb-8 text-lg relative z-10 leading-relaxed">"The staff was friendly, professional, and paid great attention to detail. Highly recommend their services."</p>
+                    <div class="flex items-center gap-4 relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-cyan to-brand-blue flex items-center justify-center text-brand-midnight font-bold text-lg shadow-[0_0_15px_rgba(0,208,255,0.4)]">A</div>
+                        <div>
+                            <h4 class="font-bold text-white tracking-wide">Verified Customer</h4>
+                            <div class="text-yellow-400 text-xs mt-1 space-x-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Review 2 -->
+                <div class="p-8 rounded-[2rem] bg-brand-card/30 backdrop-blur-md border border-white/10 relative shadow-2xl hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-brand-cyan/20 text-6xl absolute top-4 right-6"><i class="fas fa-quote-right"></i></div>
+                    <p class="text-gray-300 italic mb-8 text-lg relative z-10 leading-relaxed">"Extremely happy & satisfied with the services they offer. My car looks as good as the day I bought it."</p>
+                    <div class="flex items-center gap-4 relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-purple to-brand-blue flex items-center justify-center text-white font-bold text-lg shadow-[0_0_15px_rgba(85,18,217,0.4)]">S</div>
+                        <div>
+                            <h4 class="font-bold text-white tracking-wide">Verified Customer</h4>
+                            <div class="text-yellow-400 text-xs mt-1 space-x-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Review 3 -->
+                <div class="p-8 rounded-[2rem] bg-brand-card/30 backdrop-blur-md border border-white/10 relative shadow-2xl hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-brand-cyan/20 text-6xl absolute top-4 right-6"><i class="fas fa-quote-right"></i></div>
+                    <p class="text-gray-300 italic mb-8 text-lg relative z-10 leading-relaxed">"Best car wash in Rajbagh area. Fast, reliable, and they use premium quality products. Will visit again!"</p>
+                    <div class="flex items-center gap-4 relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center text-white font-bold text-lg border border-white/20">M</div>
+                        <div>
+                            <h4 class="font-bold text-white tracking-wide">Verified Customer</h4>
+                            <div class="text-yellow-400 text-xs mt-1 space-x-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-24 bg-brand-dark relative border-t border-white/5 pb-32">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 tracking-wide">Visit Woosh Today</h2>
+            <p class="text-gray-300 mb-12 max-w-2xl mx-auto text-lg">Drop by our Rajbagh location or message us on WhatsApp for rapid bookings and inquiries.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
+                <!-- Location -->
+                <div class="p-8 bg-brand-midnight/80 backdrop-blur-sm rounded-3xl border border-white/10 flex flex-col items-center shadow-xl hover:border-brand-cyan/50 transition-colors">
+                    <div class="w-16 h-16 rounded-full bg-brand-cyan/10 flex items-center justify-center mb-5">
+                        <i class="fas fa-map-marked-alt text-brand-cyan text-2xl"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-xl mb-3">Location</h4>
+                    <p class="text-gray-400 text-base leading-relaxed">3R7C+GVQ Post Office,<br>Ikhrajpora, Rajbagh,<br>Srinagar, J&K 190008</p>
+                </div>
+                <!-- Hours -->
+                <div class="p-8 bg-brand-midnight/80 backdrop-blur-sm rounded-3xl border border-white/10 flex flex-col items-center shadow-xl hover:border-brand-purple/50 transition-colors">
+                    <div class="w-16 h-16 rounded-full bg-brand-purple/10 flex items-center justify-center mb-5">
+                        <i class="fas fa-clock text-brand-purple text-2xl"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-xl mb-3">Operating Hours</h4>
+                    <p class="text-gray-400 text-base leading-relaxed">Open All Week<br>Starts at 9:00 AM</p>
+                </div>
+                <!-- Contact -->
+                <div class="p-8 bg-brand-midnight/80 backdrop-blur-sm rounded-3xl border border-white/10 flex flex-col items-center shadow-xl hover:border-brand-blue/50 transition-colors">
+                    <div class="w-16 h-16 rounded-full bg-brand-blue/10 flex items-center justify-center mb-5">
+                        <i class="fas fa-phone-alt text-brand-blue text-2xl"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-xl mb-3">Call Us</h4>
+                    <p class="text-gray-400 text-lg font-medium mb-3">095964 24242</p>
+                    <a href="tel:09596424242" class="text-brand-cyan font-semibold hover:text-white transition-colors">Tap to Call &rarr;</a>
+                </div>
+            </div>
+
+            <a href="https://wa.me/919596424242" target="_blank" class="bg-[#25D366] text-white font-bold px-10 py-4 rounded-full hover:bg-green-500 transition duration-300 text-lg glow-button inline-flex items-center shadow-[0_0_20px_rgba(37,211,102,0.4)] tracking-wide">
+                <i class="fab fa-whatsapp mr-3 text-xl"></i> Message on WhatsApp
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer class="bg-brand-midnight border-t border-white/10 pb-24 md:pb-8 relative z-10">
+    <div class="container mx-auto px-6 py-10">
+        <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-6">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-car text-brand-cyan text-xl"></i>
+                <span class="text-white font-bold tracking-wider uppercase">Woosh Car Care</span>
+            </div>
+            <p class="text-gray-500 text-sm font-medium">&copy; 2026 Woosh Car Care. All Rights Reserved.</p>
+            <div class="flex space-x-6">
+                <a href="https://wa.me/919596424242" target="_blank" class="text-gray-400 hover:text-[#25D366] transition-colors"><i class="fab fa-whatsapp text-xl"></i></a>
+                <a href="tel:09596424242" class="text-gray-400 hover:text-brand-cyan transition-colors"><i class="fas fa-phone text-xl"></i></a>
+                <a href="#contact" class="text-gray-400 hover:text-brand-cyan transition-colors"><i class="fas fa-map-marker-alt text-xl"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // --- PRELOADER LOGIC ---
+    window.addEventListener('load', () => {
+        const loader = document.getElementById('premium-loader');
+        setTimeout(() => {
+            loader.classList.add('loader-exit');
+            document.body.style.overflow = '';
+            setTimeout(() => { if(loader) loader.remove(); }, 700);
+        }, 1100); 
+    });
+
+    // --- Mobile menu toggle ---
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+
+    const toggleMenu = () => {
+        const isHidden = mobileMenu.classList.contains('hidden');
+        if (isHidden) {
+            mobileMenu.classList.remove('hidden');
+            mobileMenuOverlay.classList.remove('hidden');
+            if(mobileMenuButton) mobileMenuButton.classList.add('menu-active-anim');
+        } else {
+            mobileMenu.classList.add('hidden');
+            mobileMenuOverlay.classList.add('hidden');
+            if(mobileMenuButton) mobileMenuButton.classList.remove('menu-active-anim');
+        }
+    };
+
+    if(mobileMenuButton) mobileMenuButton.addEventListener('click', toggleMenu);
+    if(mobileMenuCloseButton) mobileMenuCloseButton.addEventListener('click', toggleMenu);
+    
+    mobileMenuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (!mobileMenu.classList.contains('hidden')) { toggleMenu(); }
+        });
+    });
+
+    if(mobileMenuOverlay) mobileMenuOverlay.addEventListener('click', toggleMenu);
+
+    // --- CODE PART 1: LIVE LIQUID ANIMATION (Passive Turbulence) ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const turbulence = document.getElementById('turbulence');
+        if (turbulence) {
+            let time = 0;
+            const animateTurbulence = () => {
+                const bfX = 0.01 + Math.sin(time) * 0.002;
+                const bfY = 0.03 + Math.cos(time * 0.5) * 0.002;
+                turbulence.setAttribute('baseFrequency', `${bfX} ${bfY}`);
+                time += 0.005;
+                requestAnimationFrame(animateTurbulence);
+            };
+            animateTurbulence();
+        }
+    });
+
+    // --- CODE PART 2: INTERACTIVE LIQUID GLASS (Mouse Movement via Shader Class) ---
+    (function() {
+        'use strict';
+        if (window.liquidGlassInstances) {
+            window.liquidGlassInstances.forEach(lg => lg.destroy());
+        }
+        window.liquidGlassInstances = [];
+
+        function smoothStep(a, b, t) {
+            t = Math.max(0, Math.min(1, (t - a) / (b - a)));
+            return t * t * (3 - 2 * t);
+        }
+        function length(x, y) { return Math.sqrt(x * x + y * y); }
+        function roundedRectSDF(x, y, width, height, radius) {
+            const qx = Math.abs(x) - width + radius;
+            const qy = Math.abs(y) - height + radius;
+            return Math.min(Math.max(qx, qy), 0) + length(Math.max(qx, 0), Math.max(qy, 0)) - radius;
+        }
+        function texture(x, y) { return { type: 't', x, y }; }
+        function generateId() { return 'liquid-glass-' + Math.random().toString(36).substr(2, 9); }
+
+        class Shader {
+            constructor(options = {}) {
+                this.targetElement = options.targetElement || document.body;
+                this.width = this.targetElement.offsetWidth;
+                this.height = this.targetElement.offsetHeight;
+                this.fragment = options.fragment || ((uv) => texture(uv.x, uv.y));
+                this.canvasDPI = 1;
+                this.id = generateId();
+                this.mouse = { x: 0, y: 0 };
+                this.mouseUsed = false;
+                
+                // Keep base filters so javascript doesn't accidentally overwrite the CSS
+                this.baseFilter = options.baseFilter || '';
+                this.trackGlobalMouse = options.trackGlobalMouse || false;
+
+                this.initElement();
+                this.setupObservers();
+                this.updateShader();
+            }
+
+            initElement() {
+                // Ensure base CSS allows stacking
+                const baseStyles = window.getComputedStyle(this.targetElement);
+                if (baseStyles.position === 'static') {
+                    this.targetElement.style.position = 'relative';
+                }
+
+                this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                this.svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+                this.svg.style.cssText = 'position: absolute; width: 0; height: 0; pointer-events: none; z-index: -1;';
+
+                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+                filter.setAttribute('id', `${this.id}_filter`);
+                filter.setAttribute('filterUnits', 'userSpaceOnUse');
+                filter.setAttribute('colorInterpolationFilters', 'sRGB');
+                filter.setAttribute('x', '0');
+                filter.setAttribute('y', '0');
+                filter.setAttribute('width', '100%');
+                filter.setAttribute('height', '100%');
+
+                this.feImage = document.createElementNS('http://www.w3.org/2000/svg', 'feImage');
+                this.feImage.setAttribute('id', `${this.id}_map`);
+                this.feImage.setAttribute('width', '100%');
+                this.feImage.setAttribute('height', '100%');
+                this.feImage.setAttribute('preserveAspectRatio', 'none');
+
+                this.feDisplacementMap = document.createElementNS('http://www.w3.org/2000/svg', 'feDisplacementMap');
+                this.feDisplacementMap.setAttribute('in', 'SourceGraphic');
+                this.feDisplacementMap.setAttribute('in2', `${this.id}_map`);
+                this.feDisplacementMap.setAttribute('scale', '30');
+                this.feDisplacementMap.setAttribute('xChannelSelector', 'R');
+                this.feDisplacementMap.setAttribute('yChannelSelector', 'G');
+
+                filter.appendChild(this.feImage);
+                filter.appendChild(this.feDisplacementMap);
+                defs.appendChild(filter);
+                this.svg.appendChild(defs);
+
+                this.canvas = document.createElement('canvas');
+                this.canvas.width = this.width;
+                this.canvas.height = this.height;
+                this.context = this.canvas.getContext('2d');
+                document.body.appendChild(this.svg);
+                
+                // Explicitly define the backdrop filter combining the base style + dynamic filter
+                this.targetElement.style.backdropFilter = `${this.baseFilter} url(#${this.id}_filter)`.trim();
+                this.targetElement.style.webkitBackdropFilter = `${this.baseFilter} url(#${this.id}_filter)`.trim();
+            }
+
+            setupObservers() {
+                this.resizeObserver = new ResizeObserver(entries => {
+                    for (let entry of entries) {
+                        const { width, height } = entry.contentRect;
+                        this.width = width;
+                        this.height = height;
+                        this.canvas.width = width;
+                        this.canvas.height = height;
+                        this.updateShader();
+                    }
+                });
+                this.resizeObserver.observe(this.targetElement);
+
+                document.addEventListener('mousemove', (e) => {
+                    if(this.trackGlobalMouse) {
+                        this.mouse.x = e.clientX / window.innerWidth;
+                        this.mouse.y = e.clientY / window.innerHeight;
+                    } else {
+                        const rect = this.targetElement.getBoundingClientRect();
+                        this.mouse.x = (e.clientX - rect.left) / rect.width;
+                        this.mouse.y = (e.clientY - rect.top) / rect.height;
+                    }
+                    this.updateShader();
+                });
+            }
+
+            updateShader() {
+                const w = this.width;
+                const h = this.height;
+                if (w === 0 || h === 0) return;
+
+                const data = new Uint8ClampedArray(w * h * 4);
+                let maxScale = 0;
+                const rawValues = [];
+                const aspect = w / h;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    const idx = i / 4;
+                    const x = idx % w;
+                    const y = Math.floor(idx / w);
+                    const uvX = x / w;
+                    const uvY = y / h;
+
+                    const pos = this.fragment({ x: uvX, y: uvY }, this.mouse, aspect);
+
+                    const dx = pos.x * w - x;
+                    const dy = pos.y * h - y;
+                    maxScale = Math.max(maxScale, Math.abs(dx), Math.abs(dy));
+                    rawValues.push(dx, dy);
+                }
+
+                maxScale = Math.max(maxScale, 0.1) * 0.5;
+                let index = 0;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = rawValues[index++] / maxScale + 0.5;
+                    const g = rawValues[index++] / maxScale + 0.5;
+
+                    data[i] = Math.min(255, Math.max(0, r * 255));
+                    data[i + 1] = Math.min(255, Math.max(0, g * 255));
+                    data[i + 2] = 0;
+                    data[i + 3] = 255;
+                }
+
+                this.context.putImageData(new ImageData(data, w, h), 0, 0);
+                this.feImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', this.canvas.toDataURL());
+            }
+
+            destroy() {
+                if(this.resizeObserver) this.resizeObserver.disconnect();
+                if(this.svg && this.svg.parentNode) this.svg.remove();
+                this.targetElement.style.backdropFilter = '';
+                this.targetElement.style.webkitBackdropFilter = '';
+            }
+        }
+
+        function createLiquidGlass() {
+            // 1. Primary Header Glass (Restored original base filter and brightness)
+            const headerElement = document.getElementById('header');
+            if(headerElement) {
+                const shaderHeader = new Shader({
+                    targetElement: headerElement,
+                    baseFilter: 'url(#fisheye-lens-filter) blur(0px) brightness(1.1)',
+                    fragment: (uv, mouse, aspect) => {
+                        const ix = uv.x - 0.5;
+                        const iy = uv.y - 0.5;
+                        const distanceToEdge = roundedRectSDF(ix, iy, 0.48, 0.45, 0.1);
+                        const displacement = smoothStep(0.2, 0, distanceToEdge);
+                        const scaled = smoothStep(0, 1, displacement);
+                        return texture(ix * scaled + 0.5, iy * scaled + 0.5);
+                    }
+                });
+                window.liquidGlassInstances.push(shaderHeader);
+            }
+
+            // 2. Secondary Menu Button Glass - Redesigned with a twisting/diagonal refractive direction
+            const menuBtnElement = document.getElementById('mobile-menu-button');
+            if(menuBtnElement) {
+                const shaderMenu = new Shader({
+                    targetElement: menuBtnElement,
+                    trackGlobalMouse: true,
+                    baseFilter: 'url(#fisheye-lens-filter) blur(0px)',
+                    fragment: (uv, mouse, aspect) => {
+                        const ix = uv.x - 0.5; 
+                        const iy = uv.y - 0.5;
+                        const distanceToEdge = roundedRectSDF(ix, iy, 0.4, 0.4, 0.2);
+                        const displacement = smoothStep(0.4, -0.1, distanceToEdge);
+                        const scaled = smoothStep(0, 1, displacement);
+                        
+                        // By swapping ix and iy, and adjusting the calculation, we pull the glass 
+                        // in a swirling/diagonal direction entirely distinct from the main header
+                        return texture(uv.x + (iy * scaled * 0.9), uv.y - (ix * scaled * 0.9));
+                    }
+                });
+                window.liquidGlassInstances.push(shaderMenu);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', createLiquidGlass);
+        } else {
+            createLiquidGlass();
+        }
+    })();
+</script>
+</body>
+</html>
